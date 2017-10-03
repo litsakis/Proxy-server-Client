@@ -210,48 +210,48 @@ second (msg2) will enter the page that the client requests from the host)
 
 ** /
 void pagehtml (char *msg,char *msg2)
-{	// δηλώσεις μεταβλητών
-	int i=0;//Μετρητής
-	int j=0;//Μετρητής
-	int sig=0;//Μετρητής
+{	// variable declarations
+	int i=0;//counter
+	int j=0;//counter
+	int sig=0;//counter
 
 
-bzero(msg2,256);// Αρχικοποίηση του msg2 
+bzero(msg2,256);// init the msg2 
 
-//αφού αφαιρεθήκαν τα http - https
-//αν βρεθεί το πρώτο '/' αυτό σημαίνει ότι από αυτήν την θέση αρχίζει η διεύθυνση που
-// θα ζητηθεί από τον host
+// after removing http - https
+// if the first '/' is found this means that from this position starts the address
+// will be requested by the host
 
 
-	while (	msg[i]!='\0')// αν βρεθεί '/' μέχρι το '\0'(το τέλος του string) 
+	while (	msg[i]!='\0')// if found '/' up to '\ 0' (end of string)
 {				
 
 	if (sig==0)
   {
-		if (msg[i]=='/')//τότε σημειώνετε η θέση που βρέθηκε  
+		if (msg[i]=='/')// then mark the location found
 		sig=i;
 		
   }
-	if (sig!=0)//αν βρέθηκε κάποια θέση που περιέχει '/'
+	if (sig!=0)// if a location containing '/'
     {
-	msg2[j]=msg[i];//τότε οι χαρακτήρες από την θέση αυτή και μετά αντιγράφονται στο msg2
+	msg2[j]=msg[i];// then the characters from this position and then are copied to msg2
 	j++;
     }
 i++;
 	
 
 }
-	if (sig==0){//Αν δεν υπάρχει κάποια θέση   θα μπει απλά ένα '/' στο msg2
+	if (sig==0){// If there is no place, it will simply enter a '/' in msg2
 	
 	msg2[0]='/';		
 	}
 	else{
-	msg2[j]='\0';msg[sig]='\0';}// Τέλος στις τελευταίες θέσεις των msg και msg2  μπαίνουν '\0' 
+	msg2[j]='\0';msg[sig]='\0';}// Finally in the last posts of msg and msg2 enter '\ 0'
 }
 
 
 /**
-H error εκτυπώνει σφάλματα αν υπάρχουν 
+The error prints bugs if they exist
 
 **/
 
