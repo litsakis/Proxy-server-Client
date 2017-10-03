@@ -1,6 +1,6 @@
 /**server.c
 .				 
-.		Λιτσάκης Αλέξανδρος am: 4597  mail: litsakis@ceid.upatras.gr
+.		Made by Litsakis Alexandros	 mail: litsakis@outlook.com
 .		 
 .Ο παραπάνω κώδικας κάνει compile  με την εντολή  :gcc server.c -o runnable
 .Για να τρέξει το εκτελέσιμο γραφούμε στο τερματικό : runnable -p port .Όπου  port
