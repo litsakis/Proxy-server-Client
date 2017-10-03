@@ -31,109 +31,107 @@
 . Fopen could not work.
 ** /
 void filename (char *url)
-{	// δηλώσεις μεταβλητών
-	int i;// Ένας απλός μετρητής   
-	char html[]=".html";//Περιέχει το string “.html”
+{	// variable declarations
+	int i;// counter
+	char html[]=".html";//Contains the “.html” string
 
 	for(i=0;i<strlen(url);i++)
-	if(url[i]=='/')//Αν ο char που ελέγχετε είναι   ‘/’
-	url[i]='^';//Τότε Μετατρέπετε σε '^'
+	if(url[i]=='/')//checks for  ‘/’
+	url[i]='^';//makes the / to '^'
 
-	strcat(url,html);//Εδώ μπαίνει η κατάληξη .html  στο url (αυτό κανονικά είναι προαιρετικό )
-//Και θα μπορούσε να παραληφτεί 
+	strcat(url,html);//Here the .html suffix enters the url (this is normally optional)
+//And it could be missed
 }
 
 /**
-Η chkcmd παίρνει σαν όρισμα  το string που έρχεται από τον client .Ξεχωρίζει Την εντολη
- που δώσαμε στον proxyserver. Αν η εντολή είναι GET επιστρέφει 1 Αν είναι GETNEW επιστρέφει 2 και τέλος αν είναι η EXIT επιστρέφει 3 .
+Chkcmd takes the string that comes from the client as an argument. It separates the command
+  which we gave to the proxyserver. If the command is GET returns 1 If GETNEW returns 2 and finally if EXIT returns 3.
 **/
 int chkcmd(char *msg)
 {
-	// δηλώσεις μεταβλητών
-	int i;//Είναι η επιστρεφόμενη τιμή  (δηλαδή η εντολή που έδωσε ο client) 
-	int gt;//Μετρητής που καθορίζει αν η εντολή είναι η GET
-	int gtn;//Μετρητής που καθορίζει αν η εντολή είναι η GETNEW
-	int size;//Tο μέγεθος του string που έδωσε ο client
-	int z;//Μετρητής
-	int gt3; //Μετρητής που καθορίζει αν η εντολή είναι η EXIT
-	char comget[]="GET ";//STRING που περιέχει την λέξη "GET "
-	char comgetn[]="GETNEW ";//STRING που περιέχει την λέξη "GETNEW "
-	char exit[]="EXIT";//STRING που περιέχει την λέξη "EXIT"
+	// variable declarations
+	int i; // It is the return value (ie the order given by the client)
+	int gt; // Meter that determines whether the command is GET
+	int gtn; // Meter that determines if the command is GETNEW
+	int size; // The string size given by the client
+	int z; // Counter
+	int gt3; // Meter that determines if the command is EXIT
+	char comget [] = "GET"; // STRING containing the word "GET"
+	char comgetn [] = "GETNEW"; // STRING containing the word "GETNEW"
+	char exit [] = "EXIT"; // STRING containing the word "EXIT"
 
 
 
-	size=strlen(msg);//Tο μέγεθος του string που έδωσε ο client εκχωρείτε στην size 
+	size=strlen(msg);//The string size given by the client is assigned to the size
 
 
 
-	i=-1;
-	if (size<4){//ΑΝ το size είναι κάτω από 4 προφανώς δεν χωράει καν η GET όποτε πρόκειται για λάθος  
-	i=0;}	//και η επιστρεφόμενη τιμή του I είναι 0
-	else if(size<7){//ΑΝ το size είναι κάτω από 7 προφανώς δεν χωράει καν η GETNEW Όποτε δεν την  ελέγχω   
+	i = -1;
+	if (size <4) {// If size is below 4 obviously not even GET fits whenever it is wrong
+		i = 0;} // and the return value of I is 0
+	else if (size <7) {// If size is below 7 obviously not even GETNEW fits Whenever I do not control it
 
-	gt=0;	//Ο μετρητής της GET γίνετε 0 
-	for (z=0;z<=3;z++){	
-	if (msg[z]==comget[z])//ΑΝ οι 4 πρώτοι χαρακτήρες  είναι “GET “
-	gt++;//Ο μετρητής αυξάνει ένα ίδιο γράμμα 
+	gt; = 0; // The GET counter becomes 0
+	for (z = 0; z <= 3; z ++) {
+	if (msg [z] == comget [z]) // If the first 4 characters are "GET"
+		gt ++; // The meter raises a same letter
 	}
 
-	if (gt==4){//O μετρητής γίνετε 4 και η εντολή που έδωσε ο client είναι η GET
-	i=1;
-	 }
-	gt3=0;//Ο μετρητής της EXIT γίνετε 0 
-	for (z=0;z<=3;z++){
-	if (msg[z]==exit[z])//ΑΝ οι 4 πρώτοι χαρακτήρες  είναι “EXIT“
-	gt3++;//Ο μετρητής αυξάνει ένα ίδιο γράμμα 
+	if (gt == 4) {// The meter becomes 4 and the command given by the client is GET
+		i = 1;
 	}
-	if (gt3==4){//O μετρητής γίνετε 4 και η εντολή που έδωσε ο client είναι η EXIT
-	i=3;
+	gt3 = 0; // The EXIT counter becomes 0
+	for (z = 0; z <= 3; z ++) {
+		if (msg [z] == exit [z]) // If the first 4 characters are "EXIT"
+		gt3 ++; // The meter raises a same letter
+		}
+	if (gt3 == 4) {// The meter becomes 4 and the command given by the client is EXIT
+		i = 3;
 	}
 
 	}
-	else {//Αν τo Size είναι 8 και άνω τότε παίζουν και οι 3 εντολές 
-	gt=0;//Ο μετρητής της GET γίνετε 0
-	gtn=0;//Ο μετρητής της GETNEW γίνετε 0
-	gt3=0;//Ο μετρητής της EXIT γίνετε 0
-	for (z=0;z<=3;z++)
-	if (msg[z]==comget[z])//ΑΝ οι 4 πρώτοι χαρακτήρες  είναι “GET “
-	gt++;//Ο μετρητής αυξάνει ένα ίδιο γράμμα
-	
-	if (gt==4)
-	i=1;
- 	
-		
-	for (z=0;z<=3;z++){
-	if (msg[z]==exit[z])//ΑΝ οι 4 πρώτοι χαρακτήρες  είναι “EXIT“
-	gt3++;//Ο μετρητής αυξάνει ένα ίδιο γράμμα
+	else {// If Size is 8 and above, then all three commands play
+	gt = 0; // The GET counter becomes 0
+	gtn = 0; // The GETNEW counter becomes 0
+	gt3 = 0; // The EXIT counter becomes 0
+	for (z = 0; z <= 3; z ++)
+		if (msg [z] == comget [z]) // If the first 4 characters are "GET"
+		gt ++; // The meter raises a same letter
+
+	if (gt == 4)
+	i = 1;
+ 
+
+	for (z = 0; z <= 3; z ++) {
+		if (msg [z] == exit [z]) // If the first 4 characters are "EXIT"
+			gt3 ++; // The meter raises a same letter
 	}
-	if (gt3==4){
-	i=3;//O μετρητής γίνετε 4 και η εντολή που έδωσε ο client είναι η EXIT
-	}	
+	if (gt3 == 4) {
+	i = 3; // The meter becomes 4 and the command given by the client is EXIT
+		}
 
-	
-	z=0;
-	while ((i!=1)&&(z<8)&&(i!=3)){
-	if (msg[z]==comgetn[z]){//ΑΝ οι 7 πρώτοι χαρακτήρες  είναι “GETNEW “
-	gtn++;//Ο μετρητής αυξάνει ένα ίδιο γράμμα
-		
+
+	z = 0;
+	while ((i! = 1) && (z <8) && (i! = 3)) {
+		if (msg [z] == comgetn [z]) {// If the first 7 characters are "GETNEW"
+	gtn ++; // The meter raises a same letter
+
 	}
-	z++;}
-	if (gtn==7)//O μετρητής γίνετε 7 και η εντολή που έδωσε ο client είναι η GETNEW
-	i=2;
-	
-	
+	z ++;}
+	if (gtn == 7) // The meter becomes 7 and the command given by the client is GETNEW
+	i = 2;
 
 
+
+
+	}
+
+
+return i; // If the command is GET returns 1
+// If GETNEW returns 2
+// If Wrong returns 0
+// If EXIT returns 3
 }
-
-
-return i; //Αν η εντολή είναι GET επιστρέφει 1 
-//Αν είναι GETNEW επιστρέφει 2
-// Αν είναι Λάθος  επιστρέφει 0
-//Αν είναι EXIT επιστρέφει 3
-}
-
-
 
 /**
 η url αφαιρει την κάθε  εντολή από το υπόλοιπο string  .
