@@ -446,52 +446,51 @@ void GETNEW (char *htmlurl,char *cmd,char *lnk,char *sys_buf)
 	if (error==1){
 	bzero(sys_buf,sysbn);//initialize sys_buf
 	sprintf(sys_buf, "GET %s HTTP/1.0\r\nHost: %s\r\nUser-Agent: HTML4.01\r\n\r\n",htmlurl,cmd);
-		//At sys_buf μπαίνει το μήνυμα όπως θα σταλεί στον webserver συμφώνα με το πρότυπο http 1.0
+		//At sys_buf the message will be sent as it will be sent to the webserver in accordance with the  http 1.0
 	nhtml(cmd,sys_buf);//καλεί την nhtml όπου πέρνει το μήνυμα για τον webserver και στην
-// sys_buf Επιστρέφει το html
+// sys_buf returns the html
 	
-	filename (cplnk);//καλείτε η filename για να επιστραφεί η ονομασία του αρχείου που θα γραφτεί
+	filename (cplnk);//call filename to return the name of the file to be written
 
-	if ((book1 = fopen(cplnk,"w"))==NULL)//ανοίγει το αρχείο για γράψιμο
+	if ((book1 = fopen(cplnk,"w"))==NULL)//opens the file for writing
 	printf("error\n");
 
 
 	
 	 fwrite(sys_buf,  1,strlen(sys_buf), book1);
 
-	fclose (book1);//κλείνει τον pointer
+	fclose (book1);//closes pointer
 	}
 else
-	sprintf(sys_buf, "cant find host :-(");// αν δεν βρεθεί ο host  εκτυπώνει το μήνυμα στο αρχείο .
+	sprintf(sys_buf, "cant find host :-(");//if it does not find the host prints the message in the file.
 	}
 
 
 
 /**
-H main :-) εδώ αρχίζουν όλα!
-**/
+H main :-) here everything begins!**/
 
 int main(int argc, char *argv[])
-{	// δηλώσεις μεταβλητών
+{	//variable declarations
 
      int sockfd, newsockfd;// socket descriptors
-	int portno;// Ο αριθμός της port που ακούει ο server
-     socklen_t clilen;// το μέγιστο μέγεθος του sockaddr
-	int childPID=1;//η τιμή του θα είναι 1 μονο για τον μπαμπα process!
-	int sysbn =MAX;//Το max μέγεθος του  html που μπορεί να διαβάσει o proxy
-     char buffer[256];// κρατάει τα εισερχόμενα μυνήματα
-	char cmd[256];//αντιγράφετε το μήνυμα απο τον client και χρησιμοποιείτε  απο τις μεθόδους για επεξεργασία  
-	char htmlurl[256];// εδώ αποθηκεύεται η διεύθυνση  του html που ζητάει ο client απο το  host
-	char lnk[256];// το ολόκληρο link όπως έρχεται από τον client.
-	char sys_return[sysbn];//το html που θα σταλθεί πίσω στον client
-	 int n;// βοηθητική μεταβλητή για send-receive
-	int s;// η εντολή που εδωσε ο client (αν το s είναι 1 ειναι get ,αν το s ειναι 2 ειναι getnew,
-	//αν το s ειναι 3 exit
-	int size; //το μέγεθος του html που θα σταλθεί στον client
-     struct sockaddr_in serv_addr, cli_addr;// δομές διευθύνσεων #include <sys/socket.h>
+	int portno;//The port number that the server listens to
+     socklen_t clilen;// Max sockaddr
+	int childPID=1;//will be only 1 for the father process!
+	int sysbn =MAX;//The max size of html the proxy can read
+     char buffer[256];// keeps incoming messages
+	char cmd[256];//Copy the message from the client and use it for processing
+	char htmlurl[256];// here the html address requested by the client is stored
+	char lnk[256];// the entire link as it comes from the client.
+	char sys_return[sysbn];//the html that will be sent back to the client
+	 int n;// auxiliary variable for send-receive
+	int s;//the command given by the client (if s is 1 is get, if s is 2 is getnew,
+	// if it is 3 exit
+	int size; //the size of the html to be sent to the client
+     struct sockaddr_in serv_addr, cli_addr;// address structures #include <sys/socket.h>
 
     
-     if ((argc < 3)||(argc > 3)) {//έλεγχος αν τα arguments που δίνονται από την άρχη της εκτέλεσης είναι σωστά
+     if ((argc < 3)||(argc > 3)) {//check whether the arguments given by the executing authority are correct
          fprintf(stderr,"usage %s -p hostname port\n", argv[0]);exit(0);
          exit(1);
      }else if (strcmp(argv[1],"-p"))
@@ -499,54 +498,54 @@ int main(int argc, char *argv[])
 	fprintf(stderr,"usage %s -p hostname port\n", argv[0]);exit(0);
 		}	
 	printf("Proxy server starting.");
-     sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);//δημιουργία tcp socket descriptor για Internet addresses
+     sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);//create tcp socket descriptor for Internet addresses
      if (sockfd < 0) 
         error("ERROR opening socket");
-// αρχικοποίηση δομής socket address για τον server
-     bzero((char *) &serv_addr, sizeof(serv_addr));// μηδενηζει τα bytes της δομής
-     portno = atoi(argv[2]);// η port  που ακούει ο server
-     serv_addr.sin_family = AF_INET;// ίδιο address family με την δημιουργία του socket
-     serv_addr.sin_addr.s_addr = INADDR_ANY;// αποδοχή πακέτων απο κάθε interface
-     serv_addr.sin_port = htons(portno);// αντιστοιχίζει σε ένα port
+// initialize a socket address structure for the server
+     bzero((char *) &serv_addr, sizeof(serv_addr));// nullifies the bytes of the structure
+     portno = atoi(argv[2]);// the port that the server listens to
+     serv_addr.sin_family = AF_INET;// same address family with the creation of the socket
+     serv_addr.sin_addr.s_addr = INADDR_ANY;// accept packages from each interface
+     serv_addr.sin_port = htons(portno);//assigns to a port
 
 	printf(".");
 	sleep(1);
 	printf(".\n");
-/* Σύνδέση του socket descriptor που έχει επιστραφεί από την κλήση socket(), με μία τοπική διεύθυνση και θύρα  (IP*
- * address, port number), γνωστοποιώντας στο σύστημα ότι τα μηνύματα που έρχονται στα συγκεκριμένα: (interface -  *
- * – port) απευθύνονται στη συγκεκριμένη διαδικασία. */
+/*Linking the socket descriptor returned by the socket () call with a local address and port (IP *
+  * address, port number), telling the system that the messages that come to the following: (interface - *
+  * - port) are directed to this process. */
      if (bind(sockfd, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
               error("ERROR on binding");
 
-	listen(sockfd,5);//Ο server ακούει (“listen”) σε αυτό το socket για να δεχτεί (“accept”) εισερχόµενα
-//µηνύµατα. 
+	listen(sockfd,5);//The server listens to this socket to accept incoming
+// messages.
 
  
 
-do{     // μόνο με την process πατέρας δεν θα βγεί ποτέ από το loop
+do{     // only with the father process will never come out of the loop
   	 
 
 
-// αρχικοποίηση
+// inits
 	bzero(htmlurl,256);
 	bzero(cmd,256);
 	bzero(lnk,256);
 	bzero(sys_return,sysbn);
         bzero(buffer,256);
 
- clilen = sizeof(cli_addr);// το μέγιστο μέγεθος του sockaddr
+ clilen = sizeof(cli_addr);//the maximum size of sockaddr
   
 printf (" ");
-//αν το procces ειναι ο μπαμπάς procces
+//if the process is dad process
 	newsockfd = accept(sockfd, 
                  (struct sockaddr *) &cli_addr, 
-                 &clilen);//Η συνάρτηση accept επιτρέπει στον server να δηµιουργήσει ένα socket 
-//µέσω του οποίου θαεπικοινωνεί µε τον client.
+                 &clilen);// The accept function allows the server to create a socket
+// through which it will communicate with the client.
      if (newsockfd < 0) 
           error("ERROR on accept..");
 childPID =fork();
 
-// δημιουργεί child
+// creates child
 
 	if (childPID == -1 )
   {
@@ -560,24 +559,24 @@ childPID =fork();
 {
    
      n = read(newsockfd,buffer,255);
-//Με την συνάρτηση read () διαβάζει τα δεδοµένα από ένα socket
-     if (n < 0) error("ERROR reading from socket");
+// With the read () function reads the data from a socket   
+	if (n < 0) error("ERROR reading from socket");
 
-	   strcpy(cmd,buffer);//αντιγράφοντε τα δεδομένα που ήρθαν από τον client στο cmd.
+	   strcpy(cmd,buffer);//copy the data that came from the client to cmd.
 
   
-	    s=chkcmd(cmd);// Καλείτε η chkcmd για να βρεθεί τι εντολή έδωσε ο client
+	    s=chkcmd(cmd);// Call chkcmd to find which command the client gave
 	
 	
 	if ((s==1)||(s==2)||(s==3)){
-	if ((s==1)||(s==2))//αν η εντολή δεν ειναι λάθος ή η exit
+	if ((s==1)||(s==2))//if the command is neither not wrong nor exit
 	{
-	url(cmd, s);//καλείτε το url για να αφαιρέσει αν δεν υπάρχει το http / https -GET -GETNEW απο το cmd
-	strcpy(lnk,cmd);// στο cmd εχει Μείνει το url το οποίο το αντιγράφει στο lnk
+	url(cmd, s);//call url to remove if http / https -GET -GETNEW does not exist from cmd
+	strcpy(lnk,cmd);// in cmd it has the url that copies it to lnk
 
-	   pagehtml(cmd,htmlurl);//καλείτε η pagehtml ,όπου παίρνοντας το url από την cmd
-					//επιστρέφει το host url και την σελίδα που θέλει ο client 
-				//πχ στο www.in.gr/index.html επιστρέφει www.in.gr και /index.html αντίστοιχα  
+	   pagehtml(cmd,htmlurl);//call the pagehtml, where you get the url from cmd
+// returns the host url and the page that the client wants
+// eg at www.in.gr/index.html returns www.in.gr and /index.html respectively 
 					}	//if 1 or 2
 
 	printf("Here is the message: %s\n",cmd);
@@ -585,23 +584,23 @@ childPID =fork();
     
 
 if (s==1){
-s=GET(lnk,sys_return);//καλείτε η get  που παίρνει σαν όρισμα το lnk (που ειναι το url) . και επιστρέφει στο sys_return
+s=GET(lnk,sys_return);//call get to get lnk (which is the url). and returns to sys_return
 										//το html.
 
 }// S==1
 
 if (s==2){
 	
-	GETNEW(htmlurl,cmd,lnk,sys_return);//καλείτε η get  που παίρνει σαν όρισμα το
-//htmlurl που είναι ή σελίδα που θέλει ο client από τον webserver
-//cmd που είναι το url του webserver
-//lnk που ειναι το url ολόκληρο
-//και επιστρέφει στο sys_return το html
+	GETNEW(htmlurl,cmd,lnk,sys_return);// call get that gets the argument
+// htmlurl is the page that the client wants from the webserver
+// cmd is the url of the webserver
+// lnk that is the url entire
+// and returns to sys_return the html
 
 
 }//S==2
 if (s==3){
-if ( childPID == 0 )//αν καλεστεί η exit απο child . το child μας αφήνει χρόνους 
+if ( childPID == 0 )// if the exit from child calls. the child dies
   {
 exit(0);
 
@@ -614,16 +613,16 @@ exit(0);
 
 
 
-printf("\n%s\n",sys_return);//εκτυπώνεται το html
+printf("\n%s\n",sys_return);//prints to screen the html
 size =strlen(sys_return);
 
-bzero (buffer,256);//μηδενίζει τον buffer
+bzero (buffer,256);//empty the  buffer
 sprintf(buffer,"%d",size);
-n = write(newsockfd,buffer,255);//το μεγεθος του html επιστρέφει στον client
+n = write(newsockfd,buffer,255);//the size of the html returns to the client
 if (n < 0) error("ERROR writing to socket");
 
 
- n = write(newsockfd,sys_return,strlen(sys_return));//το html επιστρέφει στον client
+ n = write(newsockfd,sys_return,strlen(sys_return));//html returns to the client
 
      if (n < 0) error("ERROR writing to socket");
 
@@ -631,10 +630,10 @@ if (n < 0) error("ERROR writing to socket");
 
 
 
-     close(newsockfd);/* κλείνει τον socket descriptor*/
+     close(newsockfd);/* closes the socket descriptor * /
 exit(0);}
  }while(1);//WHILE //μόνο ο dad procces μπορεί να ειναι 1
-   close(sockfd);/* κλείνει τον socket descriptor*/
+   close(sockfd); 
 
 kill( getpid(), SIGKILL );
     return 0; 
