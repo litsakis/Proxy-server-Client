@@ -73,7 +73,7 @@ int chkcmd(char *msg)
 
 	gt; = 0; // The GET counter becomes 0
 	for (z = 0; z <= 3; z ++) {
-	if (msg [z] == comget [z]) // If the first 4 characters are "GET"
+	if (msg[z] == comget[z]) // If the first 4 characters are "GET"
 		gt ++; // The meter raises a same letter
 	}
 
@@ -82,7 +82,7 @@ int chkcmd(char *msg)
 	}
 	gt3 = 0; // The EXIT counter becomes 0
 	for (z = 0; z <= 3; z ++) {
-		if (msg [z] == exit [z]) // If the first 4 characters are "EXIT"
+		if (msg[z] == exit[z]) // If the first 4 characters are "EXIT"
 		gt3 ++; // The meter raises a same letter
 		}
 	if (gt3 == 4) {// The meter becomes 4 and the command given by the client is EXIT
@@ -95,7 +95,7 @@ int chkcmd(char *msg)
 	gtn = 0; // The GETNEW counter becomes 0
 	gt3 = 0; // The EXIT counter becomes 0
 	for (z = 0; z <= 3; z ++)
-		if (msg [z] == comget [z]) // If the first 4 characters are "GET"
+		if (msg[z] == comget[z]) // If the first 4 characters are "GET"
 		gt ++; // The meter raises a same letter
 
 	if (gt == 4)
@@ -149,34 +149,34 @@ void url (char * msg, int d)
 
 
 // statements of variables
-	char http [] = "http: //"; // STRING containing "http: //"
-	char https [] = "https: //"; // STRING containing "https: //"
+	char http [] = "http://"; // STRING containing "http: //"
+	char https [] = "https://"; // STRING containing "https: //"
 	int count1 = 0; // Counter
 	int count2 = 0; // Counter
 	int i = 0; // Counter
 
 
 	if (d == 1) {// If the command is GET, the Fifth character is moved to its first string
-		while (msg [i + 4]! = '\ 0') {// the sixth in the second ... ie from the fifth and the second
-			msg [i] = msg [i + 4]; // all are moved 4 places back by covering "GET"
+		while (msg [i + 4]! = '\0') {// the sixth in the second ... ie from the fifth and the second
+			msg [i] = msg [i+4]; // all are moved 4 places back by covering "GET"
 			i ++;
-			} msg [i] = '\ 0';} // Finally, the fourth character from the end becomes '\ 0')
+			} msg [i] ='\0';} // Finally, the fourth character from the end becomes '\ 0')
 	else if (d == 0) // If the client has not given a command, nothing is done!
 		{}
 	else
 		{
-			while (msg [i + 7]! = '\ 0') {// If the command is GETNEW, the eighth character is moved to its first string
+			while (msg [i + 7]! = '\0') {// If the command is GETNEW, the eighth character is moved to its first string
 				msg [i] = msg [i + 7]; // the second in the second ... ie from the Eighth and the Fifth
 				i ++;
-			} msg [i] = '\ 0'; // Everyone is transported 7 seats back covering "GETNEW"
+			} msg [i] = '\0'; // Everyone is transported 7 seats back covering "GETNEW"
 		}
 
 // If the given url is http-https then remove the get and getnew commands
 // will have reached the top spot!
 
-	if {(strlen (msg)> 8)) {// If there is http: // or https: // then obvious the url will be greater than 8
+	if {(strlen (msg)>8)) {// If there is http: // or https: // then obvious the url will be greater than 8
 		for (i = 0; i <7; i ++)
-			if (msg [i] == http [i]) // here I check if there is http: //
+			if (msg[i] == http[i]) // here I check if there is http: //
 				count1 ++; // The meter becomes 7 if there is http: //
 
 		for (i = 0; i <8; i ++)
@@ -186,29 +186,29 @@ void url (char * msg, int d)
 
 	i = 0;
 		if (count1 == 7) {// AN eventually exists http: //
-			while (msg [i + 6]! = '\ 0') {// The 7th character is moved to its first string
+			while (msg [i + 6]! = '\0') {// The 7th character is moved to its first string
 				msg [i] = msg [i + 7]; // the eighth in the second ... ie from the 7th and the later
 				i ++; // all are transported 8 seats back by covering "http: //"
-			} msg [i + 7] = '\ 0'; // Finally the 7th character from the end becomes '\ 0')
+			} msg [i + 7] = '\0'; // Finally the 7th character from the end becomes '\ 0')
 	}
 	else if (count2 == 8) {// AN eventually exists https: //
-		while (msg [i + 7]! = '\ 0') {// The eighth character is moved to its first string
+		while (msg [i + 7]! = '\0') {// The eighth character is moved to its first string
 			msg [i] = msg [i + 8]; // the one in the second ... that is, from the Eighth and Second
 			i ++; // all are transported 9 seats behind, covering "https: //"
-		} msg [i + 8] = '\ 0'; // Finally, the eighth character from the end becomes '\ 0')
+		} msg [i + 8] = '\0'; // Finally, the eighth character from the end becomes '\ 0')
 	}
 
 }
 
 
 }
-/**
-Στην pagehtml ελέγχω αν υπάρχει στο url μετα τον host κάποιο '/' .Αν δεν υπάρχει στο msg2  θα μπει απλά ένα '/'. Αν υπάρχει '/' αντιγράφω το '/' με ότι περιέχει μετά στο msg2 αφαιρώντας το από το msg
+/ **
+In pagehtml I check if there is a '/' in the url after the host. If there is not in msg2 it will just be a '/'. If there is '/' I copy '/' with it then contains in msg2 subtracting it from msg
 
-τα δυο ορίσματα που παίρνει η pagehtml είναι δύο strings  . το πρώτο είναι το καθαρό 'url' . στο
-δεύτερο(msg2)  θα μπει η σελίδα που θα ζητάει ο client από τον  host )
+the two arguments that the pagehtml gets is two strings. the first is pure 'url'. at
+second (msg2) will enter the page that the client requests from the host)
 
-**/
+** /
 void pagehtml (char *msg,char *msg2)
 {	// δηλώσεις μεταβλητών
 	int i=0;//Μετρητής
