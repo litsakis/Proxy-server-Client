@@ -133,14 +133,14 @@ return i; // If the command is GET returns 1
 // If EXIT returns 3
 }
 
-/ **
+/**
 url removes each command from the rest of the string.
 As well as "http" or "https" If there is!
 (ie the string is from "GET http://www.in.gr" to "www.in.gr" (The net url remains!))
 As the input gets the string sent by the client as well
  An int with the Command given (1 GET, 2 GETNEW)
 
-** /
+**/
 
 
 
@@ -202,13 +202,13 @@ void url (char * msg, int d)
 
 
 }
-/ **
+/**
 In pagehtml I check if there is a '/' in the url after the host. If there is not in msg2 it will just be a '/'. If there is '/' I copy '/' with it then contains in msg2 subtracting it from msg
 
 the two arguments that the pagehtml gets is two strings. the first is pure 'url'. at
 second (msg2) will enter the page that the client requests from the host)
 
-** /
+**/
 void pagehtml (char *msg,char *msg2)
 {	// variable declarations
 	int i=0;//counter
@@ -267,23 +267,23 @@ void error(const char *msg)
 
 
 /**
-η errorurl ελέγχει αν ο host που δόθηκε στο url από τον client υπάρχει .
-αν υπάρχει στέλνει "σήμα" στην GETNEW να προχωρήσει μέσω του int error.
-αν το  error είναι 1 ο host υπάρχει αλλιώς επιστέφει -1
+errorurl checks if the host given to the url by the client exists.
+if there is a "signal" sent to GETNEW to proceed through int error.
+if the error is 1 the host is otherwise replied -1
 
-η errorurl παίρνει 2 ορίσματα . στο msg τον host και επιστρέφει το δεύτερο (error)
+errorurl gets 2 arguments. in the msg host and returns the second (error)
 
 **/
 void  errorurl(char *msg,int error)
 {
 	
-    struct hostent *host;// δομές διευθύνσεων #include <sys/socket.h>
+    struct hostent *host;// address structures #include <sys / socket.h>
 	
-//η gethostname αναζητά πληροφορίες για τον υπολογιστή με το όνομα hostname στη βάση δεδομένων 
-//και τις αποθηκεύει στη δομή host
-//Η δομή αυτή ορίζεται στη βιβλιοθήκη netinet.h/in.h
+// gethostname looks for information about the hostname hostname in the database
+// and stores them in the host structure
+// This structure is defined in the netinet.h / in.h library
 
-   if ((host = gethostbyname(msg))==NULL) {  // αν επιστρέψει τιμή τότε υπάρχει ο host 
+   if ((host = gethostbyname(msg))==NULL) {  // if it returns a value then there is the host
         herror("gethostbyname");	
 	error=-1;
 }
@@ -293,75 +293,77 @@ else{
 }
 }
 /**
-Η nhtml χρησιμοποιείτε μόνο από την getnew .Παίρνει σαν όρισμα  2 strings .Στο πρώτο παίρνει το url 
-του host (webserver) από τον οποίο  θέλει ο client να πάρει το html. Απο το το δεύτερο παίρνει 
-το message που θα σταλθεί στον webserver και επιστρέφει το html μέσα στο string.
+Nhtml is only used by getnew. It takes 2 strings as the argument. At first it gets the url
+of the host (webserver) from which the client wants to get the html. From the second it gets
+the message that will be sent to the webserver and returns the html within the string.
 
 **/
 void nhtml (char *msg,char *msg2)
-{	// δηλώσεις μεταβλητών
- 	struct sockaddr_in serv_addr;// δομές διευθύνσεων #include <sys/socket.h>
-    	struct hostent *server;	// δομές διευθύνσεων #include <sys/socket.h>
+{	// statements of variables
+ 	struct sockaddr_in serv_addr;// address structures #include <sys / socket.h>
+    	struct hostent *server;	// address structures #include <sys / socket.h>
 	
 	 int sockfd;// socket descriptor
-	int portno;//  χρησιμοποιούμενη port
-	int buffn=MAX;//μέγεθος buffer
+	int portno;//  used port
+	int buffn=MAX;// buffer size
 	
 	char buf[BUFSIZ+1];
 	int n;// socket descriptor
-	int left;//θα χρησιμοποιηθεί για να δείχνει τις θέσεις του buffer που δεν είναι ελεύθερες
-	//δημιουργία socket descriptor για Internet addresses
-	int counter=0;//μετρητης
-	int i=0;//μετρητης
+	int left;//will be used to indicate buffer positions that are not free
+// create socket descriptor for Internet addresses
+	int counter=0;//counter
+	int i=0;//counter
 	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); 
 	if (sockfd < 0) 
         error("ERROR opening socket");
 	memset(buf, 0, BUFSIZ);
-//η gethostname αναζητά πληροφορίες για τον υπολογιστή με το όνομα hostname στη βάση δεδομένων 
-//και τις αποθηκεύει στη δομή host
-//Η δομή αυτή ορίζεται στη βιβλιοθήκη netinet.h/in.h
-
+// gethostname looks for information about the hostname hostname in the database
+// and stores them in the host structure
+// This structure is defined in the netinet.h / in.h library
+	
    if ((server=gethostbyname(msg)) == NULL) {
         perror("ERROR, no such host\n");
         
 }
 
 
-// αρχικοποίηση δομής socket address 
-	    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;// ίδιο address family με την δημιουργία του socket
+// initialize socket address structure
+	
+	
+	bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;// same address family with the creation of the socket
     bcopy((char *)server->h_addr, 
          (char *)&serv_addr.sin_addr.s_addr,
-         server->h_length);//αντιγράφει στην δομή διευθύνσεων. την διεύθυνση του server
-    serv_addr.sin_port = htons(80);// το port 80 ειναι το port που θα μιλήσει  ο proxy με τον webserver
+         server->h_length);// copies to the address structure. the server address
+    serv_addr.sin_port = htons(80);// port 80 is the port that the proxy will talk with the webserver
 
 
 
-	  if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) //συνδέετε με τον webserver
+	  if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) // connect to the webserver
         error("ERROR connecting");
-	 printf("%s\n",msg2);//εκτυπώνει το μύνημα που θα στείλει στον webserver .
-	 n = write(sockfd,msg2,strlen(msg2));//στέλνει το μύνημα μέσο του socket
+	 printf("%s\n",msg2);// prints the message it will send to the webserver.
+	 n = write(sockfd,msg2,strlen(msg2));// sends the message through the socket
     if (n < 0) 
          error("ERROR writing to socket");
-  memset(msg2, 0, buffn);//αρχικοποίηση του string msg2
+  memset(msg2, 0, buffn);// initialize the msg2
 
-	left=MAX;//το μέγεθος του msg2 εκχωρείτε στον int left
+	left=MAX;// the size of msg2 is assigned to int left
 
 while (1){
 n=0;
 	n = read(sockfd,buf,BUFSIZ);
-	//Λαμβάνει το html από τον webserver
+	// Get the html from the webserver
 				
-		for(i=0; i<strlen(buf); i++)//αντιγράφει τα εισερχόμενα bytes στο msg2
+		for(i=0; i<strlen(buf); i++)// copies incoming bytes to msg2
 		{
 			msg2[counter] = buf[i];
 			counter++;
 	     	}	
 
 	   	memset(buf, 0, n);
-	left -=n;//αν τα bytes  που έχουν διαβαστεί είναι μεγαλύτερα απο το μέγεθος
-	if ((n<=0) || (left<=0))// ή το n==0 δηλαδή σταματήσει να στέλνει ο webserver
-		break;//τοτε η recv σταματάει!
+	left -=n;// if the bytes that are read are larger than the size
+	if ((n<=0) || (left<=0))// or n == 0 ie the webserver stops sending
+		break;// then recv stops!
 
 
 
@@ -375,7 +377,7 @@ n=0;
 
     
 
-  close(sockfd);// κλείνει τον socket descriptor
+  close(sockfd);// closes the socket descriptor
 
 }
 /**
