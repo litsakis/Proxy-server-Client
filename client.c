@@ -1,6 +1,6 @@
 
 /**client.c 
-.		Litsakis Alexandros
+.	Made by	Litsakis Alexandros
 . The above code makes compile with the command: gcc client.c -o runnable
 . To run the executable we write to the terminal: runnable -s server port. 
 .    -Where port the port server will listen. (Group Ports 9040-9049) 
