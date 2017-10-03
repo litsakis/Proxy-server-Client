@@ -22,14 +22,14 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <signal.h>
-#define MAX 4000000//το max μέγεθος του html που μπορει να λάβει ο server
-/**
-.H filename παίρνει σαν όρισμα το url (πχ www.in.gr/index.html)
-.Και το μετατρέπει σε (www.in.gr^index.html.html)  
-.(δηλαδή μετατρέπει τα ‘/’ σε ‘^’
-.Αυτό χρησιμεύει στην ονομασία των αρχείων . γιατί αν η ονομασία  περιείχε’ /’ τότε 
-.Η fopen  δεν θα μπορούσε να δουλέψει. 
-**/
+#define MAX 4000000//The max html size the server can receive.
+/ **
+.The filename gets the url (like www.in.gr/index.html)
+. And converts it to (www.in.gr ^ index.html.html)
+(ie converts '/' to '^'
+This is the name of the files. because if the name contained '/' then
+. Fopen could not work.
+** /
 void filename (char *url)
 {	// δηλώσεις μεταβλητών
 	int i;// Ένας απλός μετρητής   
