@@ -26,8 +26,8 @@
 / **
 .The filename gets the url (like www.in.gr/index.html)
 . And converts it to (www.in.gr ^ index.html.html)
-(ie converts '/' to '^'
-This is the name of the files. because if the name contained '/' then
+.(ie converts '/' to '^'
+.This is the name of the files. because if the name contained '/' then
 . Fopen could not work.
 ** /
 void filename (char *url)
