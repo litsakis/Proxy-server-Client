@@ -68,58 +68,58 @@ int chkcmd(char *msg)
 
 	i = -1;
 	if (size <4) {// If size is below 4 obviously not even GET fits whenever it is wrong
-		i = 0;} // and the return value of I is 0
+		i=0;} // and the return value of I is 0
 	else if (size <7) {// If size is below 7 obviously not even GETNEW fits Whenever I do not control it
 
-	gt; = 0; // The GET counter becomes 0
-	for (z = 0; z <= 3; z ++) {
+	gt=0; // The GET counter becomes 0
+	for (z=0; z<=3; z++) {
 	if (msg[z] == comget[z]) // If the first 4 characters are "GET"
-		gt ++; // The meter raises a same letter
+		gt++; // The meter raises a same letter
 	}
 
-	if (gt == 4) {// The meter becomes 4 and the command given by the client is GET
-		i = 1;
+	if (gt==4) {// The meter becomes 4 and the command given by the client is GET
+		i=1;
 	}
-	gt3 = 0; // The EXIT counter becomes 0
-	for (z = 0; z <= 3; z ++) {
+	gt3=0; // The EXIT counter becomes 0
+	for (z=0; z<=3; z++) {
 		if (msg[z] == exit[z]) // If the first 4 characters are "EXIT"
-		gt3 ++; // The meter raises a same letter
+		gt3++; // The meter raises a same letter
 		}
-	if (gt3 == 4) {// The meter becomes 4 and the command given by the client is EXIT
-		i = 3;
+	if (gt3==4) {// The meter becomes 4 and the command given by the client is EXIT
+		i=3;
 	}
 
 	}
 	else {// If Size is 8 and above, then all three commands play
-	gt = 0; // The GET counter becomes 0
-	gtn = 0; // The GETNEW counter becomes 0
-	gt3 = 0; // The EXIT counter becomes 0
-	for (z = 0; z <= 3; z ++)
+	gt=0; // The GET counter becomes 0
+	gtn=0; // The GETNEW counter becomes 0
+	gt3=0; // The EXIT counter becomes 0
+	for (z=0; z<=3; z++)
 		if (msg[z] == comget[z]) // If the first 4 characters are "GET"
-		gt ++; // The meter raises a same letter
+		gt++; // The meter raises a same letter
 
-	if (gt == 4)
-	i = 1;
+	if (gt==4)
+	i=1;
  
 
-	for (z = 0; z <= 3; z ++) {
-		if (msg [z] == exit [z]) // If the first 4 characters are "EXIT"
-			gt3 ++; // The meter raises a same letter
+	for (z=0; z<=3; z++) {
+		if (msg[z] == exit[z]) // If the first 4 characters are "EXIT"
+			gt3++; // The meter raises a same letter
 	}
-	if (gt3 == 4) {
-	i = 3; // The meter becomes 4 and the command given by the client is EXIT
+	if (gt3==4) {
+	i=3; // The meter becomes 4 and the command given by the client is EXIT
 		}
 
 
-	z = 0;
-	while ((i! = 1) && (z <8) && (i! = 3)) {
-		if (msg [z] == comgetn [z]) {// If the first 7 characters are "GETNEW"
-	gtn ++; // The meter raises a same letter
+	z=0;
+	while ((i!=1) && (z<8) && (i!=3)) {
+		if (msg[z]==comgetn[z]) {// If the first 7 characters are "GETNEW"
+	gtn++; // The meter raises a same letter
 
 	}
-	z ++;}
+	z++;}
 	if (gtn == 7) // The meter becomes 7 and the command given by the client is GETNEW
-	i = 2;
+	i=2;
 
 
 
@@ -151,24 +151,24 @@ void url (char * msg, int d)
 // statements of variables
 	char http [] = "http://"; // STRING containing "http: //"
 	char https [] = "https://"; // STRING containing "https: //"
-	int count1 = 0; // Counter
-	int count2 = 0; // Counter
-	int i = 0; // Counter
+	int count1= 0; // Counter
+	int count2= 0; // Counter
+	int i= 0; // Counter
 
 
-	if (d == 1) {// If the command is GET, the Fifth character is moved to its first string
-		while (msg [i + 4]! = '\0') {// the sixth in the second ... ie from the fifth and the second
-			msg [i] = msg [i+4]; // all are moved 4 places back by covering "GET"
-			i ++;
-			} msg [i] ='\0';} // Finally, the fourth character from the end becomes '\ 0')
-	else if (d == 0) // If the client has not given a command, nothing is done!
+	if (d==1) {// If the command is GET, the Fifth character is moved to its first string
+		while (msg [i + 4]!='\0') {// the sixth in the second ... ie from the fifth and the second
+			msg [i] =msg[i+4]; // all are moved 4 places back by covering "GET"
+			i++;
+			} msg[i] ='\0';} // Finally, the fourth character from the end becomes '\ 0')
+	else if (d==0) // If the client has not given a command, nothing is done!
 		{}
 	else
 		{
-			while (msg [i + 7]! = '\0') {// If the command is GETNEW, the eighth character is moved to its first string
-				msg [i] = msg [i + 7]; // the second in the second ... ie from the Eighth and the Fifth
-				i ++;
-			} msg [i] = '\0'; // Everyone is transported 7 seats back covering "GETNEW"
+			while(msg[i+7]! = '\0') {// If the command is GETNEW, the eighth character is moved to its first string
+				msg[i] = msg[i + 7]; // the second in the second ... ie from the Eighth and the Fifth
+				i++;
+			} msg[i] = '\0'; // Everyone is transported 7 seats back covering "GETNEW"
 		}
 
 // If the given url is http-https then remove the get and getnew commands
@@ -177,11 +177,11 @@ void url (char * msg, int d)
 	if {(strlen (msg)>8)) {// If there is http: // or https: // then obvious the url will be greater than 8
 		for (i = 0; i <7; i ++)
 			if (msg[i] == http[i]) // here I check if there is http: //
-				count1 ++; // The meter becomes 7 if there is http: //
+				count1++; // The meter becomes 7 if there is http: //
 
 		for (i = 0; i <8; i ++)
 			if (msg [i] == https [i]) // here I check if there is https: //
-				count2 ++; // The meter becomes 8 if there is https: //
+				count2++; // The meter becomes 8 if there is https: //
 
 
 	i = 0;
