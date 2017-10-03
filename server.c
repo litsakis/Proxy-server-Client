@@ -381,72 +381,72 @@ n=0;
 
 }
 /**
-Η GET δέχεται σαν όρισμα το πλήρη url  ελέγχει αν υπάρχει το html .αν όχι επιστέφει 2 και καλείτε η GETNEW . αν υπάρχει το html το διαβάζει και το επιστέφει με το sys_buf
+GET accepts the full url argument as if it checked if there is html. If not back 2 and called GETNEW. if there is html it reads it and replicates it with sys_buf
 
 **/
 int GET (char *lnk,char *sys_buf)
-{	// δηλώσεις μεταβλητών
+{	// variable declarations
 	
-	int i=0;//Μετρητής
-	char cplnk[256];//Θα χρησιμοποιηθεί για αντιγραφo του link
-	char c;//χρησιμοποιείτε για την ανάγνωση του html από αρχείο
+	int i=0;//Var
+	char cplnk[256];// Used to copy the link
+	char c;//used to read html from a file
 
-	FILE *book;//δημιουργεί ένα pointer που θα δείχνει στο αρχείο
-	bzero(cplnk,256);// αρχικοποιείτε  η cplink
-	strcpy(cplnk,lnk);//το url αντιγράφετε  στην cplink
-	filename (cplnk);//καλείτε η filename για να επιστραφεί η ονομασία του αρχείου που θα διαβαστεί
+	FILE *book;//creates a pointer to show in the file
+	bzero(cplnk,256);// initialize cplink
+	strcpy(cplnk,lnk);// url  copy to cplink
+	filename (cplnk);// call filename to return the name of the file to be read
 	
-	if ((book=fopen(cplnk,"r"))==NULL){//ανοίγει το αρχείο για διάβασμα
-	printf("den uparxei to html\n");
+	if ((book=fopen(cplnk,"r"))==NULL){// opens the file for reading
+	printf("there is no html\n");
 	
-	return 2;}//αν δεν υπάρχει το html αποθηκευμένο επιστρέφει 2 για να καλεστεί η getnew
+	return 2;}//if there is no html stored returns 2 to call getnew
 	else{
-	rewind(book);//το book δείχνει στην αρχή του αρχείου ώστε να διαβαστεί
+	rewind(book);//the book points to the beginning of the file for reading
 	
-	bzero (sys_buf,sizeof(sys_buf));// αρχικοποιείτε η sys_buf
+	bzero (sys_buf,sizeof(sys_buf));//  initializing sys_buf
 	
-	 while( ( c = fgetc(book) ) != EOF ){//διαβάζει το αρχείο μέχρι το τέλος του
+	 while( ( c = fgetc(book) ) != EOF ){//reads the file until its end
 	      sys_buf[i]=c;i++;}
 	
-	fclose(book);//κλείνει τον pointer
+	fclose(book);//closes the pointer
 	
 	
-	return 1;//αν  υπάρχει το html αποθηκευμένο επιστρέφει 1
+	return 1;//if there is html stored returns 1
 	}
  }
 
 /**
-Η GETNEW παίρνει σαν όρισμα 
-Το *htmlurl που είναι η σελίδα που θα ζητήσει ο proxy απο τον webserver.
-πχ από την www.in.gr/index.html Το cmd περιέχει το /index.html
-Το *cmd είναι το είναι το  url του host
-Το *lnk είναι το πλήρη url που έδωσε ο client.
-Tο *sys_buf είναι το μήνυμα που θα σταλθει στον web server μέσο της nhtml και επιστρέφει το html
-το οποίο με την σειρά του το επιστρέφει στην main.
+GETNEW takes as an argument
+* Htmlurl is the page the proxy requests from the webserver.
+eg from www.in.gr/index.html cmd contains /index.html
+* Cmd is the host url
+* Lnk is the full url given by the client.
+The * sys_buf is the message that will be sent to the web server through nhtml and returns the html
+which in turn returns it to the main.
 
-Η getnew Δημιούργει το μύνημα που θα σταλθεί στον web server μέσω της nhtml. αφού λάβει το html
-το γράφει σε ένα αρχείο με το ονομα που θα επιστραφεί απο την filename και το επιστέφει στην main.
+Getnew Creates the message that will be sent to the web server via nhtml. after receiving the html
+writes it to a file with the name that will be returned from the filename and returns it to the main.
 **/	
 	
 void GETNEW (char *htmlurl,char *cmd,char *lnk,char *sys_buf)
 	{
-// δηλώσεις μεταβλητών
-	FILE *book1;//δημιουργεί ένα pointer που θα δείχνει στο αρχείο
-	int sysbn=MAX;//Το max μέγεθος του  html που μπορεί να διαβάσει o proxy
-	int error=1;//η default τιμή ότι δεν υπάρχει error απο το url που έδωσε ο client.
-	char url[256];//το url του host.
-	char cplnk[256];//εδώ θα μπεί το πλήρη  link έτσι όπως ήρθε από τον client .
+// variable declarations
+	FILE *book1;//creates a pointer to show in the file
+	int sysbn=MAX;//The max size of html the proxy can read
+	int error=1;//the default value that there is no error from the url given by the client.
+	char url[256];//the url of the host.
+	char cplnk[256];//here is the full link as it came from the client.
 
 
-	bzero(cplnk,256);//αρχικοποίηση του cplnk.
-	strcpy(cplnk,lnk);//αντιγράφετε το lnk της σελίδας που ζήτησε ο client.
-	bzero(url,256);//αρχικοποίηση του url
-	strcpy(url,cmd);//αντιγράφετε το url του host
-	errorurl(url,error);//καλείτε η errorurl για να ελενχθεί αν το url του host υπάρχει .
+	bzero(cplnk,256);//initialize cplnk.
+	strcpy(cplnk,lnk);// copy the link of the page that the client requested.
+	bzero(url,256);//initialize url
+	strcpy(url,cmd);//copy the host url
+	errorurl(url,error);//call url error to check if the host url exists.
 	if (error==1){
-	bzero(sys_buf,sysbn);//αρχικοποίηση του sys_buf
+	bzero(sys_buf,sysbn);//initialize sys_buf
 	sprintf(sys_buf, "GET %s HTTP/1.0\r\nHost: %s\r\nUser-Agent: HTML4.01\r\n\r\n",htmlurl,cmd);
-		//Στο sys_buf μπαίνει το μήνυμα όπως θα σταλεί στον webserver συμφώνα με το πρότυπο http 1.0
+		//At sys_buf μπαίνει το μήνυμα όπως θα σταλεί στον webserver συμφώνα με το πρότυπο http 1.0
 	nhtml(cmd,sys_buf);//καλεί την nhtml όπου πέρνει το μήνυμα για τον webserver και στην
 // sys_buf Επιστρέφει το html
 	
