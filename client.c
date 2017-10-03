@@ -1,6 +1,6 @@
 
 /**client.c 
-.		Λιτσάκης Αλέξανδρος  
+.		Litsakis Alexandros
 . The above code makes compile with the command: gcc client.c -o runnable
 . To run the executable we write to the terminal: runnable -s server port. 
 .    -Where port the port server will listen. (Group Ports 9040-9049) 
@@ -20,10 +20,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h> 
-#define MAX 1000000//το max μέγεθος του html που μπορει να λάβει ο client
+#define MAX 4000000//the max size of html the client can receive 
 
 
-void error(const char *msg) //καλείτε αν υπάρχει κάποιο error.
+void error(const char *msg) //called if there is an error.
 {
     perror(msg);
     exit(0);
@@ -36,22 +36,22 @@ void error(const char *msg) //καλείτε αν υπάρχει κάποιο er
 int main(int argc, char *argv[])
 {
 	int sockfd;// socket descriptor
-	int n;// βοηθητική μεταβλητή για send-receive
-	int portno;//χρησιμοποιούμενη port
-	int counter,counter2,i;// βοηθητικές μεταβλητές
-	int size;//το size του html που θα λάβει ο client
-	char exit2[]="EXIT";//c-string που βοηθάει στο να καταλάβει o client αν η εντολή που δόθηκε ειναι η exit,
-        char buffer[256];// κρατάει τα εξερχόμενα μυνήματα
-	char buf[BUFSIZ+1];// κρατάει τα εισερχόμενα μυνήματα
-        char html[MAX];//το c-string που αποθηκεύεται απο τον server το html
-  	char name[256];// Το όνομα του αρχείου που θα γραφτεί το html 
-    struct sockaddr_in serv_addr;// δομές διευθύνσεων #include <sys/socket.h>
-    struct hostent *server;// δομή διευθύνσεων #include <sys/socket.h>
+	int n;// variable for send-receive
+	int portno;//used port
+	int counter,counter2,i;// assistant var
+	int size;//the size of the html that the client will receive
+	char exit2[]="EXIT";//c-string which helps to understand the client if the command given is exit,
+        char buffer[256];// keeps outgoing messages
+	char buf[BUFSIZ+1];//keeps incoming messages
+        char html[MAX];//the c-string stored by the server
+  	char name[256];// The name of the file to be written in html 
+    struct sockaddr_in serv_addr;// address structures #include <sys/socket.h>
+    struct hostent *server;//address structure #include <sys/socket.h>
 
-	bzero(name,256);//αρχικοποίηση του name
+	bzero(name,256);//initialize the name
 	
 
-    if (argc < 4) {//έλεγχος αν τα arguments που δίνονται από την άρχη της εκτέλεσης είναι σωστά
+    if (argc < 4) {//check whether the arguments given by the executing authority are correct
        fprintf(stderr,"usage %s -s hostname port\n", argv[0]);
        exit(0);
     }else if (strcmp(argv[1],"-s"))
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		}	
 	
 
-    portno = atoi(argv[3]);// η port  που ακούει ο server
+    portno = atoi(argv[3]);// the port that server listen
 	while(1){//δημιουργία tcp socket descriptor για Internet addresses
 	size=0;
     sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
