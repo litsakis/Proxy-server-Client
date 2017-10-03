@@ -1,10 +1,11 @@
 
 /**client.c 
 .		Λιτσάκης Αλέξανδρος  
-.Ο παραπάνω κώδικας κάνει compile  με την εντολή  :gcc client.c -o runnable
-.Για να τρέξει το εκτελέσιμο γραφούμε στο τερματικό : runnable -s server port .Όπου  port
-. η πόρτα που θα ακούει ο server. (ports Ομάδας 9040-9049).Και και server το hostname ή η ip του proxy server
-.Το html που θα ζητηθεί αποθηκεύεται στο ίδιο dir με το runnable
+. The above code makes compile with the command: gcc client.c -o runnable
+. To run the executable we write to the terminal: runnable -s server port. 
+.    -Where port the port server will listen. (Group Ports 9040-9049) 
+.    -     server the hostname or ip of the proxy server
+. The html to be requested is stored in the same dir as the runnable
 . 
 .
 **/
