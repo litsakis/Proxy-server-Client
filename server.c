@@ -133,76 +133,75 @@ return i; // If the command is GET returns 1
 // If EXIT returns 3
 }
 
-/**
-η url αφαιρει την κάθε  εντολή από το υπόλοιπο string  .
-Καθώς και το “http” ή “https” Αν υπάρχει!
-(δηλαδή το string γίνετε από πχ “GET http://www.in.gr “ σε “www.in.gr”(Μένει το καθαρό url!))
-Σαν είσοδο παίρνει το string που στέλνει ο client Καθώς και
- Έναν int με  την Εντολή που έδωσε (1 GET  , 2 GETNEW )
+/ **
+url removes each command from the rest of the string.
+As well as "http" or "https" If there is!
+(ie the string is from "GET http://www.in.gr" to "www.in.gr" (The net url remains!))
+As the input gets the string sent by the client as well
+ An int with the Command given (1 GET, 2 GETNEW)
 
-**/
-
-
-
-void url(char *msg,int d)
-{	
+** /
 
 
-// δηλώσεις μεταβλητών
-	char http[]="http://";//STRING που περιέχει το "http://"
-	char https[]="https://";//STRING που περιέχει το "https://"
-	int count1=0;//Μετρητής
-	int count2=0;//Μετρητής
-	int i=0;//Μετρητής
 
-	
-	if (d==1){//Αν η εντολή είναι η GET ,Ο Πέμπτος χαρακτήρας μεταφέρετε στον πρώτο του string
-	while (msg[i+4]!= '\0'){//ο έκτος στον δεύτερο... δηλαδή απο τον πέμπτο και μετα 
-	msg[i]=msg[i+4];// ολοι μεταφέρονται 4 θέσεις πίσω καλύπτοντας το "GET "
-	i++;
-		}msg[i]='\0';}//Τέλος ο τέταρτος χαρακτήρας απο το τέλος γίνεται'\0') 
-	else if (d==0)//Αν ο client δεν εχει δώσει κάποια εντολή δεν γίνεται τίποτα!
-	{}
+void url (char * msg, int d)
+{
+
+
+// statements of variables
+	char http [] = "http: //"; // STRING containing "http: //"
+	char https [] = "https: //"; // STRING containing "https: //"
+	int count1 = 0; // Counter
+	int count2 = 0; // Counter
+	int i = 0; // Counter
+
+
+	if (d == 1) {// If the command is GET, the Fifth character is moved to its first string
+		while (msg [i + 4]! = '\ 0') {// the sixth in the second ... ie from the fifth and the second
+			msg [i] = msg [i + 4]; // all are moved 4 places back by covering "GET"
+			i ++;
+			} msg [i] = '\ 0';} // Finally, the fourth character from the end becomes '\ 0')
+	else if (d == 0) // If the client has not given a command, nothing is done!
+		{}
 	else
-	{
-	while (msg[i+7]!= '\0'){//Αν η εντολή είναι η GETNEW ,Ο όγδοος χαρακτήρας μεταφέρετε στον πρώτο του string
-	msg[i]=msg[i+7];//ο ένατος στον δεύτερο... δηλαδή απο τον Όγδοο και μετα
-	i++;
-	}msg[i]='\0';// ολοι μεταφέρονται 7 θέσεις πίσω καλύπτοντας το "GETNEW "
+		{
+			while (msg [i + 7]! = '\ 0') {// If the command is GETNEW, the eighth character is moved to its first string
+				msg [i] = msg [i + 7]; // the second in the second ... ie from the Eighth and the Fifth
+				i ++;
+			} msg [i] = '\ 0'; // Everyone is transported 7 seats back covering "GETNEW"
+		}
+
+// If the given url is http-https then remove the get and getnew commands
+// will have reached the top spot!
+
+	if {(strlen (msg)> 8)) {// If there is http: // or https: // then obvious the url will be greater than 8
+		for (i = 0; i <7; i ++)
+			if (msg [i] == http [i]) // here I check if there is http: //
+				count1 ++; // The meter becomes 7 if there is http: //
+
+		for (i = 0; i <8; i ++)
+			if (msg [i] == https [i]) // here I check if there is https: //
+				count2 ++; // The meter becomes 8 if there is https: //
+
+
+	i = 0;
+		if (count1 == 7) {// AN eventually exists http: //
+			while (msg [i + 6]! = '\ 0') {// The 7th character is moved to its first string
+				msg [i] = msg [i + 7]; // the eighth in the second ... ie from the 7th and the later
+				i ++; // all are transported 8 seats back by covering "http: //"
+			} msg [i + 7] = '\ 0'; // Finally the 7th character from the end becomes '\ 0')
 	}
-
-//Αν στο δοσμένο url υπάρχουν http-https τότε μετά την αφαίρεση των εντολών get και getnew
-// θα έχουν φτάσει στην πρώτη θέση!
-	
-if ((strlen(msg)>8)){ //Αν υπάρχει http:// ή https:// τότε προφανός το url θα είναι μεγαλύτερο από 8
-	for (i=0;i<7;i++)
-	if (msg[i]==http[i])//εδώ Ελέγχω αν υπάρχει http://
-count1++;//O μετρητής γίνετε 7 αν υπάρχει http://
-
-	for (i=0;i<8;i++)
-	if (msg[i]==https[i])//εδώ Ελέγχω αν υπάρχει https://
-count2++;//O μετρητής γίνετε 8 αν υπάρχει https://
-
-
-	i=0;
-	  if (count1==7){// AN τελικά υπάρχει http://
-		while (msg[i+6]!= '\0'){//Ο 7ος χαρακτήρας μεταφέρετε στον πρώτο του string
-		msg[i]=msg[i+7];//ο όγδοος στον δεύτερο... δηλαδή απο τον 7ομο και μετα
-		i++;// ολοι μεταφέρονται 8 θέσεις πίσω καλύπτοντας το "http://"
-		}msg[i+7]='\0';//Τέλος ο 7ος χαρακτήρας απο το τέλος γίνεται'\0')
-	}
-	else if (count2==8){// AN τελικά υπάρχει https://
-	while (msg[i+7]!= '\0'){//Ο όγδοος χαρακτήρας μεταφέρετε στον πρώτο του string
-	msg[i]=msg[i+8]; //ο έννατος στον δεύτερο... δηλαδή απο τον Όγδοο και μετα
-	i++;// ολοι μεταφέρονται 9 θέσεις πίσω καλύπτοντας το "https://"
-		}msg[i+8]='\0';//Τέλος ο όγδοος χαρακτήρας απο το τέλος γίνεται'\0')
+	else if (count2 == 8) {// AN eventually exists https: //
+		while (msg [i + 7]! = '\ 0') {// The eighth character is moved to its first string
+			msg [i] = msg [i + 8]; // the one in the second ... that is, from the Eighth and Second
+			i ++; // all are transported 9 seats behind, covering "https: //"
+		} msg [i + 8] = '\ 0'; // Finally, the eighth character from the end becomes '\ 0')
 	}
 
 }
 
 
 }
-
 /**
 Στην pagehtml ελέγχω αν υπάρχει στο url μετα τον host κάποιο '/' .Αν δεν υπάρχει στο msg2  θα μπει απλά ένα '/'. Αν υπάρχει '/' αντιγράφω το '/' με ότι περιέχει μετά στο msg2 αφαιρώντας το από το msg
 
