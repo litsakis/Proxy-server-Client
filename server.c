@@ -1,9 +1,7 @@
 /**server.c
-.					Άσκηση 2 
-.				Εργαστήριο δικτύων 2011 2012
-.				Ομάδα :Netlab 5
+.				 
 .		Λιτσάκης Αλέξανδρος am: 4597  mail: litsakis@ceid.upatras.gr
-.		Βουτσάς Βασίλειος   am: 4344  mail: voutsas@ceid.upatras.gr
+.		 
 .Ο παραπάνω κώδικας κάνει compile  με την εντολή  :gcc server.c -o runnable
 .Για να τρέξει το εκτελέσιμο γραφούμε στο τερματικό : runnable -p port .Όπου  port
 . η πόρτα που θα ακούει ο server. (ports Ομάδας 9040-9049).
