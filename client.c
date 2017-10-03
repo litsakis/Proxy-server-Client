@@ -1,10 +1,6 @@
 
-/**client.c
-.					Άσκηση 2 
-.				Εργαστήριο δικτύων 2011 2012
-.				Ομάδα :Netlab 5
-.		Λιτσάκης Αλέξανδρος am: 4597  mail: litsakis@ceid.upatras.gr
-.		Βουτσάς Βασίλειος   am: 4344  mail: voutsas@ceid.upatras.gr
+/**client.c 
+.		Λιτσάκης Αλέξανδρος  
 .Ο παραπάνω κώδικας κάνει compile  με την εντολή  :gcc client.c -o runnable
 .Για να τρέξει το εκτελέσιμο γραφούμε στο τερματικό : runnable -s server port .Όπου  port
 . η πόρτα που θα ακούει ο server. (ports Ομάδας 9040-9049).Και και server το hostname ή η ip του proxy server
