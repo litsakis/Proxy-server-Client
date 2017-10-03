@@ -2,9 +2,9 @@
 .				 
 .		Made by Litsakis Alexandros	 mail: litsakis@outlook.com
 .		 
-.Ο παραπάνω κώδικας κάνει compile  με την εντολή  :gcc server.c -o runnable
-.Για να τρέξει το εκτελέσιμο γραφούμε στο τερματικό : runnable -p port .Όπου  port
-. η πόρτα που θα ακούει ο server. (ports Ομάδας 9040-9049).
+. The above code makes compile with the command: gcc server.c -o runnable
+. To run the executable we write to the terminal: runnable -p port. Where port
+. the port that the server will hear. (Group Ports 9040-9049).
 .
 .
 .
