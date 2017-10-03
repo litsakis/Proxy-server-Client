@@ -630,9 +630,9 @@ if (n < 0) error("ERROR writing to socket");
 
 
 
-     close(newsockfd);/* closes the socket descriptor * /
+     close(newsockfd);/* closes the socket descriptor */
 exit(0);}
- }while(1);//WHILE //μόνο ο dad procces μπορεί να ειναι 1
+ }while(1);//WHILE //only father can be  1
    close(sockfd); 
 
 kill( getpid(), SIGKILL );
