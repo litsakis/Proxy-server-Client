@@ -14,3 +14,5 @@ The proxy server reads the message sent by the client and checks which command h
 It also creates a tcp connection to the web server by sending a http request.
 The webserver responds by sending an html. The html proxy server stores it in the same dir as the executable and sends it back to the client and kills the child serving the client.
 The client in turn stores the html to be received in the same dir as the executable of the client with a name that will be requested by the user.
+
+![Screenshot from 2022-10-07 00-55-17](https://user-images.githubusercontent.com/32014951/194426087-55b7601f-dd02-4fa4-86e7-b732c943ef32.png)
