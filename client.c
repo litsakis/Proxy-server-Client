@@ -6,7 +6,7 @@
 .    -Where port the port server will listen. (Group Ports 9040-9049) 
 .    -     server the hostname or ip of the proxy server
 . The html to be requested is stored in the same dir as the runnable
-. 
+.  
 .
 **/
 
